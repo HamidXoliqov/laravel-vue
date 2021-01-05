@@ -100,7 +100,7 @@ class AuthController extends Controller
             return response()->json([
                 $request->user(),
                 200
-            ]);
+            ],200);
         }
 
         return response()->json([
@@ -137,7 +137,6 @@ class AuthController extends Controller
                 $message->from('no-reply@laravel.vue.learning', 'Password Request');
                 $message->to($userData['email'], $userData['full_name']);
                 $message->subject('Reset Password Request (Laravel vue)');
-                // $message->getSwiftMessage();
             });
 
             if (Mail::failures()) {
