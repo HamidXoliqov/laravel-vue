@@ -391,7 +391,7 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "small",
-                        attrs: { to: "/reset-password" }
+                        attrs: { to: "/reset-password-request" }
                       },
                       [
                         _vm._v(

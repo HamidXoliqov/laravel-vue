@@ -74,16 +74,97 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ResetPasswordRequest',
   data: function data() {
     return {
       user: {
-        email: ''
+        email: '',
+        verification_code: '',
+        password: '',
+        password_confirmation: ''
       },
+      btnOldHtml: '',
       errors: {}
     };
+  },
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    next(function (vm) {
+      vm.user.email = to.params.email;
+    });
   },
   methods: {
     onSubmit: function () {
@@ -94,38 +175,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _context.next = 3;
-                return _services_auth_service__WEBPACK_IMPORTED_MODULE_1__["resetPasswordRequest"](this.user);
+                this.disableSubmission(this.$refs.btnSubmit);
+                this.errors = {};
+                _context.next = 5;
+                return _services_auth_service__WEBPACK_IMPORTED_MODULE_1__["resetPassword"](this.user);
 
-              case 3:
+              case 5:
                 response = _context.sent;
-                _context.next = 15;
+                this.flashMessage.success({
+                  message: response.data.message,
+                  time: 5000
+                });
+                this.$router.push('/login');
+                _context.next = 22;
                 break;
 
-              case 6:
-                _context.prev = 6;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 _context.t1 = _context.t0.response.status;
-                _context.next = _context.t1 === 422 ? 11 : 13;
+                _context.next = _context.t1 === 422 ? 15 : _context.t1 === 401 ? 17 : 19;
                 break;
 
-              case 11:
+              case 15:
                 this.errors = _context.t0.response.data.errors;
-                return _context.abrupt("break", 15);
+                return _context.abrupt("break", 21);
 
-              case 13:
+              case 17:
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt("break", 21);
+
+              case 19:
                 this.flashMessage.error({
                   message: "Some error occurrend, Please try again !",
                   time: 5000
                 });
-                return _context.abrupt("break", 15);
+                return _context.abrupt("break", 21);
 
-              case 15:
+              case 21:
+                this.enableSubmission(this.$refs.btnSubmit);
+
+              case 22:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 6]]);
+        }, _callee, this, [[0, 10]]);
       }));
 
       function onSubmit() {
@@ -133,7 +228,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return onSubmit;
-    }()
+    }(),
+    disableSubmission: function disableSubmission(btn) {
+      btn.setAttribute('disabled', 'disabled');
+      this.btnOldHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="fa fa-spinner fa-spin"></span> Please wait...';
+    },
+    enableSubmission: function enableSubmission(btn) {
+      btn.removeAttribute('disabled');
+      btn.innerHTML = this.btnOldHtml;
+    }
   }
 });
 
@@ -213,7 +317,166 @@ var render = function() {
                         _vm.$set(_vm.user, "email", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.email
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.errors.email[0]) +
+                            "\n                            "
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "small mb-1",
+                      attrs: { for: "verificationCode" }
+                    },
+                    [_vm._v("Enter verification code")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.verification_code,
+                        expression: "user.verification_code"
+                      }
+                    ],
+                    staticClass: "form-control py-4",
+                    attrs: {
+                      id: "verificationCode",
+                      type: "number",
+                      autofocus: "autofocus",
+                      autocomplete: "off",
+                      placeholder: "Enter verification code"
+                    },
+                    domProps: { value: _vm.user.verification_code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user,
+                          "verification_code",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.verification_code
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.errors.verification_code[0]) +
+                            "\n                            "
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    { staticClass: "small mb-1", attrs: { for: "password" } },
+                    [_vm._v("Enter new password")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.password,
+                        expression: "user.password"
+                      }
+                    ],
+                    staticClass: "form-control py-4",
+                    attrs: {
+                      id: "password",
+                      type: "password",
+                      autofocus: "autofocus",
+                      autocomplete: "off",
+                      placeholder: "Enter new password"
+                    },
+                    domProps: { value: _vm.user.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "password", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.password
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.errors.password[0]) +
+                            "\n                            "
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    { staticClass: "small mb-1", attrs: { for: "password" } },
+                    [_vm._v("Confirm password")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.password_confirmation,
+                        expression: "user.password_confirmation"
+                      }
+                    ],
+                    staticClass: "form-control py-4",
+                    attrs: {
+                      id: "password_confirmation",
+                      type: "password",
+                      autofocus: "autofocus",
+                      autocomplete: "off",
+                      placeholder: "Enter confirm password"
+                    },
+                    domProps: { value: _vm.user.password_confirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user,
+                          "password_confirmation",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.password_confirmation
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.errors.password_confirmation[0]) +
+                            "\n                            "
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c(
@@ -225,10 +488,13 @@ var render = function() {
                   [
                     _c(
                       "router-link",
-                      { staticClass: "small", attrs: { to: "/login" } },
+                      {
+                        staticClass: "small",
+                        attrs: { to: "/reset-password-request" }
+                      },
                       [
                         _vm._v(
-                          "\n                                Return to login\n                            "
+                          "\n                                Reset Verification code\n                            "
                         )
                       ]
                     ),
@@ -236,6 +502,7 @@ var render = function() {
                     _c(
                       "button",
                       {
+                        ref: "btnSubmit",
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
@@ -257,9 +524,9 @@ var render = function() {
               "div",
               { staticClass: "small" },
               [
-                _c("router-link", { attrs: { to: "/register" } }, [
+                _c("router-link", { attrs: { to: "/login" } }, [
                   _vm._v(
-                    "\n                            Need an account? Sign up!\n                        "
+                    "\n                            Return to login\n                        "
                   )
                 ])
               ],
@@ -279,7 +546,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "text-center font-weight-light my-4" }, [
         _vm._v(
-          "\n                        Password Recovery\n                    "
+          "\n                        Reset your password\n                    "
         )
       ])
     ])

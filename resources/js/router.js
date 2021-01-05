@@ -69,11 +69,29 @@ const routers = [
         }
     },    
     {
-        path: '/reset-password',
+        path: '/reset-password-request',
+        name: 'reset-password-request',
+        component: () => import('./views/authentication/ResetPasswordRequest.vue'),
+        beforeEnter(to, from, next) {
+            if (!auth.isLoggedIn()) {
+                next()
+            } else {
+                next('/home')
+            }
+        }
+    },
+    {
+        path: '/reset-password/:email',
         name: 'reset-password',
         component: () => import('./views/authentication/ResetPassword.vue'),
+        beforeEnter(to, from, next) {
+            if (!auth.isLoggedIn()) {
+                next()
+            } else {
+                next('/home')
+            }
+        }
     },
-
     {
         path: '*',
         name: '404',
